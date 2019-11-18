@@ -1,10 +1,6 @@
 //
 // Created by 81406 on 2019/11/9.
 //
-
-#ifndef ARTIFICIALINTELLIGENCEPROJECT_WIDTH_FIRST_CPP
-#define ARTIFICIALINTELLIGENCEPROJECT_WIDTH_FIRST_CPP
-
 #include <iostream>
 #include "Eight_Puzzle.h"
 #include "Queue.h"
@@ -109,4 +105,3 @@ int Width_First(Eight_Puzzle& puzzle) {
     return EXIT_FAILURE;
 }
 
-#endif //ARTIFICIALINTELLIGENCEPROJECT_WIDTH_FIRST_CPP
