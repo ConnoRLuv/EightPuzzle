@@ -29,7 +29,7 @@ public:
     T isInQueue(T e);
     bool InList(T e);
     void OutList(T e);
-    bool InList_A_Star(T e);
+    bool Replace(T e);
 };
 
 template <class T>
@@ -74,8 +74,7 @@ bool Queue<T>::DeQueue(T &e) {
 
 
 template <class T>
-Queue<T>::~Queue() {
-}
+Queue<T>::~Queue() =default;
 
 template <class T>
 int Queue<T>::getLength() {
@@ -88,30 +87,6 @@ TNode<T> *Queue<T>::getFirst() {
         return Front->next;
     else
         return nullptr;
-}
-
-template <class T>
-bool Queue<T>::InList(T e) {
-    if(&e == nullptr)
-        return false;
-
-    auto *p = new TNode<T>;
-    p->data = e;
-
-    auto *q = Front;
-    for (int i = 0; i < length-1; ++i) {
-        if(e < q->next->data){
-            p->next = q->next;
-            q->next = p;
-            length++;
-            return true;
-        }else
-            q = q->next;
-    }
-    Rear->next = p;
-    Rear = p;
-    length++;
-    return true;
 }
 
 template <class T>
@@ -138,7 +113,7 @@ void Queue<T>::OutList(T e) {
 }
 
 template <class T>
-bool Queue<T>::InList_A_Star(T e) {
+bool Queue<T>::Replace(T e) {
     auto *p = Front;
     while(p->next != nullptr){
         if(p->next->data == e){
@@ -147,7 +122,31 @@ bool Queue<T>::InList_A_Star(T e) {
         }
         p = p->next;
     }
-    return InList (e);
+    return false;
+}
+
+template <class T>
+bool Queue<T>::InList(T e) {
+    if(&e == nullptr)
+        return false;
+
+    auto *p = new TNode<T>;
+    p->data = e;
+
+    auto *q = Front;
+    for (int i = 0; i < length-1; ++i) {
+        if(e < q->next->data){
+            p->next = q->next;
+            q->next = p;
+            length++;
+            return true;
+        }else
+            q = q->next;
+    }
+    Rear->next = p;
+    Rear = p;
+    length++;
+    return true;
 }
 
 
