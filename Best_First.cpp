@@ -5,15 +5,15 @@
 #include "Queue.h"
 #include "Eight_Puzzle.h"
 
-void Write1(Eight_Puzzle p, int count,double clock){
-    int depth = p.depth;
+void Write_Best_First(Eight_Puzzle p, int count, double clock){
+    int depth = p.getDepth ();
     int* a;
     ofstream Result;
-    Result.open ("../data/Result");
+    Result.open ("../data/Result.txt");
     auto goal_list = new Eight_Puzzle[depth+1];
     for (int i = 0; i <= depth; ++i) {
         goal_list[i] = p;
-        if(p.depth == 0)
+        if(p.getDepth () == 0)
             break;
         p = *p.getFather ();
     }
@@ -21,16 +21,17 @@ void Write1(Eight_Puzzle p, int count,double clock){
 
     for (int i = depth; i >= 0; i--) {
         a = goal_list[i].getS0 ();
-        Result << "-----深度：" << goal_list[i].depth << "-----"<<endl;
+        Result << "-----深度：" << goal_list[i].getDepth () << "-----"<<endl;
         for (int j = 0; j < 9; ++j) {
-            Result << a[j] << " ";
+            if(j % 3 != 2 )
+                Result << a[j] << " ";
             if(j % 3 == 2)
-                Result << endl;
+                Result << a[j] <<endl;
         }
-        Result <<"估计函数值为："<< goal_list[i].getf ()<<endl;
+        Result << "估价函数值为：" << goal_list[i].getF () << endl;
     }
-    Result <<"全局择优搜索算法拓展节点总数为："<<count<<endl;
-    Result <<"全局择优搜索算法拓展总耗时为："<< clock <<endl;
+    Result << "全局择优搜索算法拓展节点总数为："<<count<<endl;
+    Result << "全局择优搜索算法拓展总耗时为："<< clock <<endl;
 }
 
 int Best_First(Eight_Puzzle &puzzle,int method){
@@ -45,13 +46,11 @@ int Best_First(Eight_Puzzle &puzzle,int method){
     open.InList (puzzle);
     if(puzzle.isGoal ()){
         clock_t end2 = clock ();
-        Write1 (puzzle,count,end2 - start);
+        Write_Best_First (puzzle, count, (double)end2 - start);
         return EXIT_SUCCESS;
     }
     while (open.DeQueue (puzzle)){
         close.InList (puzzle);
-
-//        puzzle.expand (open);
         int index = puzzle.getSpaceIndex ();
 
         if(index - 3 >= 0 && puzzle.flag != 3){
@@ -63,8 +62,6 @@ int Best_First(Eight_Puzzle &puzzle,int method){
                 goal =temp;
                 end = true;
             }
-
-
         }
 
         if(index % 3 != 0 && index - 1 >=0 && puzzle.flag != 2){
@@ -87,8 +84,6 @@ int Best_First(Eight_Puzzle &puzzle,int method){
                 goal =temp;
                 end = true;
             }
-
-
         }
 
         if(index + 3 < 9 && puzzle.flag != 0){
@@ -101,12 +96,12 @@ int Best_First(Eight_Puzzle &puzzle,int method){
                 end = true;
             }
         }
+
         if(end){
             clock_t end2 = clock ();
-            Write1 (goal,count,end2 - start);
+            Write_Best_First (goal, count, (double)end2 - start);
             return EXIT_SUCCESS;
         }
     }
-
     return EXIT_FAILURE;
 }
