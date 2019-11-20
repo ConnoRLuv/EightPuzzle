@@ -54,12 +54,12 @@ private:
 
 void Eight_Puzzle::ReadFile() {
     Eight_Puzzle();
-    ifstream Sg_File, S0_File;                //¥Úø™¥Ê¥¢¡À≥ı º◊¥Ã¨”Îƒø±Í◊¥Ã¨µƒTXTŒƒº˛
+    ifstream Sg_File, S0_File;                //ÊâìÂºÄÂ≠òÂÇ®‰∫ÜÂàùÂßãÁä∂ÊÄÅ‰∏éÁõÆÊ†áÁä∂ÊÄÅÁöÑTXTÊñá‰ª∂
     Sg_File.open ("../data/Sg.txt");
     S0_File.open ("../data/S0.txt");
 
     int i = 0;
-    while(!Sg_File.eof ()){                   //Ω´TXTŒƒº˛÷–±£¥Êµƒ≥ı º◊¥Ã¨”Îƒø±Í◊¥Ã¨¥Ê»Î∂‘”¶µƒ ˝◊È÷–
+    while(!Sg_File.eof ()){                   //Â∞ÜTXTÊñá‰ª∂‰∏≠‰øùÂ≠òÁöÑÂàùÂßãÁä∂ÊÄÅ‰∏éÁõÆÊ†áÁä∂ÊÄÅÂ≠òÂÖ•ÂØπÂ∫îÁöÑÊï∞ÁªÑ‰∏≠
         Sg_File >> Sg[i++];
 
     }
@@ -69,7 +69,7 @@ void Eight_Puzzle::ReadFile() {
         S0_File >> S0[i++];
     }
 
-    Sg_File.close ();                         //πÿ±’Œƒº˛¡˜
+    Sg_File.close ();                         //ÂÖ≥Èó≠Êñá‰ª∂ÊµÅ
     S0_File.close ();
 
 }
@@ -245,7 +245,7 @@ void Eight_Puzzle::Heuristic_Method(int method) {
                         h += abs (i - j) - 1;
                 }
             }
-            f = h + depth;
+            f = 3 * h + depth;
             break;
 
         case 4:
